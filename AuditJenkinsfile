@@ -62,7 +62,7 @@ pipeline {
             steps {
                 dir('mrt-audit'){
                   sh "echo '....................' >> ../build.current.txt"
-                  git branch: 'master', url: 'https://github.com/CDLUC3/mrt-audit.git'
+                  git branch: 'refactor', url: 'https://github.com/CDLUC3/mrt-audit.git'
                   checkout([
                         $class: 'GitSCM',
                         branches: [[name: "refs/tags/${tagname}"]],
