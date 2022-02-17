@@ -71,6 +71,7 @@ pipeline {
                   sh "git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt"
                   sh "git log --pretty=medium -n 1 >> ../build.current.txt"
                   sh "mvn  -DpropertyDir=$propertyDirName -Dmaven.repo.local=${m2dir} -s ${MAVEN_HOME}/conf/settings.xml clean install"
+                  sh "cp audit-war/war/test/mrtaudit.war ../mrtaudit.war"
                 }
             }
         }
