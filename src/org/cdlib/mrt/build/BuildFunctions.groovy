@@ -42,5 +42,7 @@ def static build_library(repo, branch, mvnparams){
 }
 
 def static build_core() {
- BuildFunctions.build_library('https://github.com/CDLUC3/mrt-core2.git', env.BRANCH_CORE, '-DskipTests')
+  script {   
+   BuildFunctions.build_library('https://github.com/CDLUC3/mrt-core2.git', ${env.BRANCH_CORE}, '-DskipTests')
+  }
 }
