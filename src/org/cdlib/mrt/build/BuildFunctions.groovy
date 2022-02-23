@@ -41,8 +41,46 @@ def build_library(repo, branch, mvnparams){
   }
 }
 
-def build_core() {
+def build_war(repo) {
   script {   
-    build_library('https://github.com/CDLUC3/mrt-core2.git', env.BRANCH_CORE, '-DskipTests')
+    git branch: env.DEF_BRANCH}, url: repo
+    sh "git remote get-url origin >> ../build.current.txt"
+    if (params.containsKey("branch")) {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: "${params.branch}"]],
+      ])
+      sh "git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags >> ../build.current.txt"
+    } else if (params.containsKey("tagname")) {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: "refs/tags/${params.tagname}"]],
+      ])
+      sh "git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt"
+    }
+    sh "git log --pretty=medium -n 1 >> ../build.current.txt"
+    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install"
+  }
+}
+
+def save_artifacts(path, prefix){
+  script {
+    def twar = "${prefix}.war"
+    def tlabel = ""
+    if (params.containsKey("branch")) {
+      tlabel = branch.replaceFirst(/origin\//, '')
+    } else {
+      tlabel = tagname
+    }
+    twar = "${prefix}-${tlabel}.war"
+    sh "cp build.current.txt ${tlabel}"
+    sh "mkdir -p WEB-INF"
+    sh "cp build.current.txt WEB-INF"
+    sh "cp ${path} ${twar}"
+    sh "jar uf ${twar} WEB-INF/build.current.txt"
+    archiveArtifacts \
+      artifacts: "${tlabel}, build.current.txt, ${twar}"
+      onlyIfSuccessful: true
+    } 
   }
 }
