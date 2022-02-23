@@ -41,7 +41,7 @@ def build_library(repo, branch, mvnparams){
   }
 }
 
-def build_war(repo) {
+def build_war(repo, mvnparams) {
   script {   
     git branch: env.DEF_BRANCH, url: repo
     sh "git remote get-url origin >> ../build.current.txt"
@@ -59,7 +59,7 @@ def build_war(repo) {
       sh "git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt"
     }
     sh "git log --pretty=medium -n 1 >> ../build.current.txt"
-    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install"
+    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}"
   }
 }
 
