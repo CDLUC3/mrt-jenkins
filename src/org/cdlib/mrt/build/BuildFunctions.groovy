@@ -15,7 +15,7 @@ Environment
 - M2DIR - the m2 directory that is unique for each service being built
 */
 
-def static init_build() {
+static def init_build() {
   script {
     if (params.containsKey("branch")) {
       echo 'Building branch ${params.branch}' > build.current.txt
@@ -31,7 +31,7 @@ def static init_build() {
   }
 }
   
-def static build_library(repo, branch, mvnparams){
+static def build_library(repo, branch, mvnparams){
   script {
     sh("git branch: ${branch}, url: ${repo}")
     sh("git remote get-url origin >> ../build.current.txt")
@@ -41,8 +41,8 @@ def static build_library(repo, branch, mvnparams){
   }
 }
 
-def static build_core() {
+static def build_core() {
   script {   
-   BuildFunctions.build_library('https://github.com/CDLUC3/mrt-core2.git', ${env.BRANCH_CORE}, '-DskipTests')
+    BuildFunctions.build_library('https://github.com/CDLUC3/mrt-core2.git', ${env.BRANCH_CORE}, '-DskipTests')
   }
 }
