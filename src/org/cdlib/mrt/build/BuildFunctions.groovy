@@ -33,12 +33,11 @@ def init_build() {
   
 def build_library(repo, branch, mvnparams){
   script {
-    sh("echo ${repo}/${branch}/${mvnparams}")
     git branch: branch, url: repo
     sh("git remote get-url origin >> ../build.current.txt")
     sh("git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt")
     sh("git log --pretty=full -n 1 >> ../build.current.txt")
-    //sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
   }
 }
 
