@@ -18,13 +18,13 @@ Environment
 def init_build() {
   script {
     if (params.containsKey("branch")) {
-      echo 'Building branch ${params.branch}' > build.current.txt
+      sh("echo 'Building branch ${params.branch}' > build.current.txt")
     } else if (params.containsKey("tagname")) {
-      echo 'Building tag ${params.tagname}' > build.current.txt
+      sh("echo 'Building tag ${params.tagname}' > build.current.txt")
     }
-    date >> build.current.txt
-    echo '' >> build.current.txt
-    echo 'Purge ${env.M2DIR}: ${params.remove_local_m2}'
+    sh("date >> build.current.txt")
+    sh("echo '' >> build.current.txt")
+    sh("echo 'Purge ${env.M2DIR}: ${params.remove_local_m2}'")
     if (params.remove_local_m2.toBoolean()) {
       sh("rm -rf ${env.M2DIR}")
     }
