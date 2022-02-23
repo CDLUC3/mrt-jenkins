@@ -26,18 +26,18 @@ def static init_build() {
     echo '' >> build.current.txt
     echo 'Purge ${env.M2DIR}: ${params.remove_local_m2}'
     if (params.remove_local_m2.toBoolean()) {
-      rm -rf "${env.M2DIR}"
+      sh("rm -rf ${env.M2DIR}")
     }
   }
 }
   
 def static build_library(repo, branch, mvnparams){
   script {
-    git branch: ${branch}, url: ${repo}
-    git remote get-url origin >> ../build.current.txt
-    git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt
-    git log --pretty=full -n 1 >> ../build.current.txt
-    mvn -Dmaven.repo.local="${env.M2DIR}" -s "${MAVEN_HOME}/conf/settings.xml" clean install "${mvnparams}"
+    sh("git branch: ${branch}, url: ${repo}")
+    sh("git remote get-url origin >> ../build.current.txt")
+    sh("git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt")
+    sh("git log --pretty=full -n 1 >> ../build.current.txt")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
   }
 }
 
