@@ -81,6 +81,5 @@ def save_artifacts(path, prefix){
     archiveArtifacts \
       artifacts: "${tlabel}, build.current.txt, ${twar}"
       onlyIfSuccessful: true
-    } 
   }
 }
