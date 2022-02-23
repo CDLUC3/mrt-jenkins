@@ -33,7 +33,7 @@ def init_build() {
   
 def build_library(repo, branch, mvnparams){
   script {
-    git branch: ${branch}, url: ${repo}"
+    git branch: ${branch}, url: ${repo}
     sh("git remote get-url origin >> ../build.current.txt")
     sh("git symbolic-ref -q --short HEAD >> ../build.current.txt || git describe --tags --exact-match >> ../build.current.txt")
     sh("git log --pretty=full -n 1 >> ../build.current.txt")
