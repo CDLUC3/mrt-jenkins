@@ -81,5 +81,8 @@ def save_artifacts(path, prefix){
     archiveArtifacts \
       artifacts: "${tlabel}, build.current.txt, ${twar}"
       onlyIfSuccessful: true
+    if (params.containsKey("tagname")) {
+      sh "cp ${twar} ${JENKINS_HOME}/userContent"
+    }
   }
 }
