@@ -43,7 +43,7 @@ def build_library(repo, branch, mvnparams){
 
 def build_war(repo) {
   script {   
-    git branch: env.DEF_BRANCH}, url: repo
+    git branch: env.DEF_BRANCH, url: repo
     sh "git remote get-url origin >> ../build.current.txt"
     if (params.containsKey("branch")) {
       checkout([
