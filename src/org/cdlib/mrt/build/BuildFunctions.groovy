@@ -17,6 +17,8 @@ Environment
 
 def init_build() {
   script {
+    sh("echo whoami")
+    sh("whoami")
     sh("mkdir -p static")
     def build_txt = 'static/build.content.txt'
     if (params.containsKey("branch")) {
