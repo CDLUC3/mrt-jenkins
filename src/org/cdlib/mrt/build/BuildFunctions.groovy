@@ -31,10 +31,10 @@ def init_build() {
       sh("rm -rf ${env.M2DIR}")
     }
 
-    def aws_account_id = sh("aws sts get-caller-identity| jq -r .Account")
+    def aws_account_id = `aws sts get-caller-identity| jq -r .Account`
     def aws_region = "us-west-2"
     def ecr_registry = "${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com"
-    sh("aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${ecr_registry}")
+    sh("aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${ecr_registry}")
     sh("export AWS_ACCOUNT_ID=${aws_account_id}")
   }
 }
