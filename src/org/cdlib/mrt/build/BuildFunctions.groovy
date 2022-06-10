@@ -19,6 +19,7 @@ def init_build() {
   script {
     sh("echo whoami")
     sh("whoami")
+    sh("docker -v")
     sh("mkdir -p static")
     def build_txt = 'static/build.content.txt'
     if (params.containsKey("branch")) {
