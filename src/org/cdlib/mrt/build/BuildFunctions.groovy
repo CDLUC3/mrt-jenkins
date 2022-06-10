@@ -40,6 +40,7 @@ def init_build() {
     sh("groups")
     sh("newgrp docker")
     sh("groups")
+    sh("aws --version")
     sh("aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${ecr_registry}")
     sh("export AWS_ACCOUNT_ID=${aws_account_id}")
   }
