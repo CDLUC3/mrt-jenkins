@@ -17,9 +17,6 @@ Environment
 
 def init_build() {
   script {
-    sh("echo whoami")
-    sh("whoami")
-    sh("docker -v")
     sh("mkdir -p static")
     def build_txt = 'static/build.content.txt'
     if (params.containsKey("branch")) {
@@ -34,31 +31,24 @@ def init_build() {
       sh("rm -rf ${env.M2DIR}")
     }
 
-    def aws_account_id = sh(script: "aws sts get-caller-identity| jq -r .Account", returnStdout: true).toString().trim()
-    def aws_region = "us-west-2"
-    def ecr_registry = "${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com"
-    sh("aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${ecr_registry}")
+    sh("aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}")
   }
 }
   
 def build_library(repo, branch, mvnparams){
   script {
     def build_txt = '../static/build.content.txt'
-    def aws_account_id = sh(script: "aws sts get-caller-identity| jq -r .Account", returnStdout: true).toString().trim()
-    def aws_region = "us-west-2"
     git branch: branch, url: repo
     sh("git remote get-url origin >> ${build_txt}")
     sh("git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags --exact-match >> ${build_txt}")
     sh("git log --pretty=full -n 1 >> ${build_txt}")
-    sh("AWS_ACCOUNT_ID=${aws_account_id} AWS_REGION=${aws_region} mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
   }
 }
 
 def build_war(repo, mvnparams) {
   script {   
     def build_txt = '../static/build.content.txt'
-    def aws_account_id = sh(script: "aws sts get-caller-identity| jq -r .Account", returnStdout: true).toString().trim()
-    def aws_region = "us-west-2"
     git branch: env.DEF_BRANCH, url: repo
     sh "git remote get-url origin >> ${build_txt}"
     if (params.containsKey("branch")) {
@@ -75,7 +65,7 @@ def build_war(repo, mvnparams) {
       sh "git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags --exact-match >> ${build_txt}"
     }
     sh "git log --pretty=medium -n 1 >> ${build_txt}"
-    sh "AWS_ACCOUNT_ID=${aws_account_id} AWS_REGION=${aws_region} mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}"
+    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}"
   }
 }
 
