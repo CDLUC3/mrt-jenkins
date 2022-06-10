@@ -37,6 +37,7 @@ def init_build() {
     def aws_account_id = sh(script: "aws sts get-caller-identity| jq -r .Account", returnStdout: true).toString().trim()
     def aws_region = "us-west-2"
     def ecr_registry = "${aws_account_id}.dkr.ecr.${aws_region}.amazonaws.com"
+    sh("newgrp docker")
     sh("aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${ecr_registry}")
     sh("export AWS_ACCOUNT_ID=${aws_account_id}")
   }
