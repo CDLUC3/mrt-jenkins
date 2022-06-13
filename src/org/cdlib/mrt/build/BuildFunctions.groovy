@@ -91,3 +91,25 @@ def save_artifacts(path, prefix){
     }
   }
 }
+
+def save_jars(path, prefix){
+  script {
+    def build_txt = 'static/build.content.txt'
+    def tjar = "${prefix}.jar"
+    def tlabel = ""
+    if (params.containsKey("branch")) {
+      tlabel = branch.replaceFirst(/origin\//, '')
+    } else {
+      tlabel = tagname
+    }
+    tjar = "${prefix}-${tlabel}.jar"
+    sh "cp ${path} ${tjar}"
+    archiveArtifacts \
+      artifacts: "${build_txt}, ${tjar}"
+      onlyIfSuccessful: true
+    if (params.containsKey("tagname")) {
+      sh "mkdir -p ${JENKINS_HOME}/userContent/${prefix}"
+      sh "cp ${tjar} ${JENKINS_HOME}/userContent/${prefix}"
+    }
+  }
+}
