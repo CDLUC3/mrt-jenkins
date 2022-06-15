@@ -31,6 +31,7 @@ def init_build() {
       sh("rm -rf ${env.M2DIR}")
     }
 
+    sh("groups")
     sh("aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}")
   }
 }
