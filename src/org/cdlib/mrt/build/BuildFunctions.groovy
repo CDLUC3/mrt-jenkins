@@ -30,8 +30,8 @@ def init_build() {
     if (params.remove_local_m2.toBoolean()) {
       sh("rm -rf ${env.M2DIR}")
     }
-    sh("echo 'ECR REG'")
-    sh("echo ${env.ECR_REGISTRY}")
+    sh("id")
+    sh("echo 'ECR REG: ${env.ECR_REGISTRY}'")
     sh("aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}")
   }
 }
