@@ -45,7 +45,7 @@ def build_library(repo, branch, mvnparams){
     sh("git remote get-url origin >> ${build_txt}")
     sh("git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags --exact-match >> ${build_txt}")
     sh("git log --pretty=full -n 1 >> ${build_txt}")
-    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install -Ddocker.imagePullPolicy=Always ${mvnparams}")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
   }
 }
 
