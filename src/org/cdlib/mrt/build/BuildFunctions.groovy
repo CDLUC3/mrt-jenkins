@@ -79,7 +79,7 @@ def build_and_test_war(repo, branch, mvnparams) {
     sh "git remote get-url origin >> ${build_txt}"
     checkout([
       $class: 'GitSCM',
-      branches: [[name: "${params.branch}"]],
+      branches: [[name: branch]],
     ])
     sh "git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags >> ${build_txt}"
     sh "git log --pretty=medium -n 1 >> ${build_txt}"
