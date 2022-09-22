@@ -72,6 +72,38 @@ def build_war(repo, mvnparams) {
   }
 }
 
+def build_and_test_war(repo, branch, mvnparams) {
+  script {   
+    def build_txt = '../static/build.content.txt'
+    git branch: branch, url: repo
+    sh "git remote get-url origin >> ${build_txt}"
+    if (params.containsKey("branch")) {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: "${params.branch}"]],
+      ])
+      sh "git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags >> ${build_txt}"
+    } else if (params.containsKey("tagname")) {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: "refs/tags/${params.tagname}"]],
+      ])
+      sh "git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags --exact-match >> ${build_txt}"
+    }
+    sh "git log --pretty=medium -n 1 >> ${build_txt}"
+    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install -Ddocker.imagePullPolicy=Always ${mvnparams}"
+  }
+}
+
+def save_build_info() {
+  script {
+    def build_txt = 'static/build.content.txt'
+    archiveArtifacts \
+      artifacts: "${build_txt}"
+      onlyIfSuccessful: true
+  }
+}
+
 def save_artifacts(path, prefix){
   script {
     def build_txt = 'static/build.content.txt'
