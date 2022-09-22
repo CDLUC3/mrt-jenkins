@@ -23,7 +23,9 @@ def init_build() {
       sh("echo 'Building branch ${params.branch}' > ${build_txt}")
     } else if (params.containsKey("tagname")) {
       sh("echo 'Building tag ${params.tagname}' > ${build_txt}")
-    }
+    } else {
+      sh("echo 'Running specialized build' > ${build_txt}")
+    } 
     sh("date >> ${build_txt}")
     sh("echo '' >> ${build_txt}")
     sh("echo 'Purge ${env.M2DIR}: ${params.remove_local_m2}'")
