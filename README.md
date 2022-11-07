@@ -26,3 +26,12 @@ Build file for consistently creating Merritt War files
 - enable groovy pipelines
 - enable git
 - enable git parameters
+
+## Host Configuration
+
+### Software dependencies
+- mvn
+- docker
+  - server must be configured to allow the builds user to run docker and docker-compose
+- docker-compose
+- trivy
