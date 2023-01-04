@@ -145,5 +145,10 @@ pipeline {
                 }
             }
         }
+        stage('Show results') {
+            steps {
+                sh "cat static/dependencies.txt"
+            }
+        }
     }
 }

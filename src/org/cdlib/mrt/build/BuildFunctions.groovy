@@ -19,6 +19,7 @@ def init_build() {
   script {
     sh("mkdir -p static")
     def build_txt = 'static/build.content.txt'
+    def deps_txt = 'static/dependencies.txt'
     if (params.containsKey("branch")) {
       sh("echo 'Building branch ${params.branch}' > ${build_txt}")
     } else if (params.containsKey("tagname")) {
@@ -53,8 +54,9 @@ def build_library(repo, branch, mvnparams){
 
 def deps_library(repo, branch){
   script {
+    def deps_txt = '../static/dependencies.txt'
     git branch: branch, url: repo
-    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building'")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' > ${deps_txt}")
   }
 }
 
@@ -83,12 +85,13 @@ def build_war(repo, mvnparams) {
 
 def deps_war(repo, branch) {
   script {   
+    def deps_txt = '../static/dependencies.txt'
     git branch: branch, url: repo
     checkout([
       $class: 'GitSCM',
       branches: [[name: branch]],
     ])
-    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building'"
+    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' > ${deps_txt}"
   }
 }
 
