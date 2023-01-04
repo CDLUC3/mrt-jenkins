@@ -145,9 +145,11 @@ pipeline {
                 }
             }
         }
-        stage('Show results') {
+        stage('Archive Deps Info') { // for display purposes
             steps {
-                sh "cat static/dependencies.txt"
+                script {
+                  new BuildFunctions().save_deps_info()
+                }
             }
         }
     }

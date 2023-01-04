@@ -119,6 +119,15 @@ def save_build_info() {
   }
 }
 
+def save_deps_info() {
+  script {
+    def deps_txt = 'static/dependencies.txt'
+    archiveArtifacts \
+      artifacts: "${deps_txt}"
+      onlyIfSuccessful: true
+  }
+}
+
 def save_artifacts(path, prefix){
   script {
     def build_txt = 'static/build.content.txt'
