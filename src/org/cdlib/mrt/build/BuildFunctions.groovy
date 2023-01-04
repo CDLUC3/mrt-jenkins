@@ -56,7 +56,7 @@ def deps_library(repo, branch){
   script {
     def deps_txt = '../static/dependencies.txt'
     git branch: branch, url: repo
-    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' > ${deps_txt}")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' >> ${deps_txt}")
   }
 }
 
@@ -91,7 +91,7 @@ def deps_war(repo, branch) {
       $class: 'GitSCM',
       branches: [[name: branch]],
     ])
-    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' > ${deps_txt}"
+    sh "mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' >> ${deps_txt}"
   }
 }
 
