@@ -125,6 +125,7 @@ def save_deps_info() {
     archiveArtifacts \
       artifacts: "${deps_txt}"
       onlyIfSuccessful: true
+    sh "cat ${deps_txt}"
   }
 }
 
