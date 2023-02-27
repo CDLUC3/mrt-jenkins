@@ -98,6 +98,10 @@ pipeline {
                       params.branch_inv, 
                       ''
                     )
+                    new BuildFunctions().save_artifacts(
+                      'mrt-inventory/inv-war/target/mrt-invwar-1.0-SNAPSHOT.war',
+                      'mrt-inventory'
+                    )
                   }
                 }
             }
@@ -111,18 +115,26 @@ pipeline {
                       params.branch_replic, 
                       ''
                     )
+                    new BuildFunctions().save_artifacts(
+                      'mrt-replic/replication-war/target/mrt-replicationwar-1.0-SNAPSHOT.war',
+                      'mrt-replic'
+                    )
                   }
                 }
             }
         }
         stage('Build Audit') {
             steps {
-                dir('mrt-replic'){
+                dir('mrt-audit'){
                   script {
                     new BuildFunctions().build_and_test_war(
                       'https://github.com/CDLUC3/mrt-audit.git',
                       params.branch_audit, 
                       ''
+                    )
+                    new BuildFunctions().save_artifacts(
+                      'mrt-audit/audit-war/target/mrt-auditwarpub-1.0-SNAPSHOT.war',
+                      'mrt-audit'
                     )
                   }
                 }
@@ -137,6 +149,10 @@ pipeline {
                       params.branch_store, 
                       ''
                     )
+                    new BuildFunctions().save_artifacts(
+                      'mrt-store/store-war/target/mrt-storewar-1.0-SNAPSHOT.war',
+                      'mrt-store'
+                    )
                   }
                 }
             }
@@ -150,7 +166,11 @@ pipeline {
                       params.branch_ingest, 
                       '-Denforcer.skip=true'
                     )
-                  }
+                    new BuildFunctions().save_artifacts(
+                      'mrt-ingest/ingest-war/target/mrt-ingestwar-1.0-SNAPSHOT.war',
+                      'mrt-ingest'
+                    )
+                 }
                 }
             }
         }
