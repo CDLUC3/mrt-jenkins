@@ -99,7 +99,7 @@ pipeline {
                       ''
                     )
                     new BuildFunctions().save_artifacts(
-                      'mrt-inventory/inv-war/target/mrt-invwar-1.0-SNAPSHOT.war',
+                      'inv-war/target/mrt-invwar-1.0-SNAPSHOT.war',
                       'mrt-inventory'
                     )
                   }
@@ -116,7 +116,7 @@ pipeline {
                       ''
                     )
                     new BuildFunctions().save_artifacts(
-                      'mrt-replic/replication-war/target/mrt-replicationwar-1.0-SNAPSHOT.war',
+                      'replication-war/target/mrt-replicationwar-1.0-SNAPSHOT.war',
                       'mrt-replic'
                     )
                   }
@@ -133,7 +133,7 @@ pipeline {
                       ''
                     )
                     new BuildFunctions().save_artifacts(
-                      'mrt-audit/audit-war/target/mrt-auditwarpub-1.0-SNAPSHOT.war',
+                      'audit-war/target/mrt-auditwarpub-1.0-SNAPSHOT.war',
                       'mrt-audit'
                     )
                   }
@@ -150,7 +150,7 @@ pipeline {
                       ''
                     )
                     new BuildFunctions().save_artifacts(
-                      'mrt-store/store-war/target/mrt-storewar-1.0-SNAPSHOT.war',
+                      'store-war/target/mrt-storewar-1.0-SNAPSHOT.war',
                       'mrt-store'
                     )
                   }
@@ -167,7 +167,7 @@ pipeline {
                       '-Denforcer.skip=true'
                     )
                     new BuildFunctions().save_artifacts(
-                      'mrt-ingest/ingest-war/target/mrt-ingestwar-1.0-SNAPSHOT.war',
+                      'ingest-war/target/mrt-ingestwar-1.0-SNAPSHOT.war',
                       'mrt-ingest'
                     )
                  }
