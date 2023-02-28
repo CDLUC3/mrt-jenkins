@@ -168,10 +168,8 @@ def save_dev_artifacts(path, prefix){
     archiveArtifacts \
       artifacts: "${twar}"
       onlyIfSuccessful: true
-    if (params.containsKey("tagname")) {
-      sh "mkdir -p ${JENKINS_HOME}/userContent/${prefix}"
-      sh "cp ${twar} ${JENKINS_HOME}/userContent/${prefix}"
-    }
+    sh "mkdir -p ${JENKINS_HOME}/userContent/${prefix}"
+    sh "cp ${twar} ${JENKINS_HOME}/userContent/${prefix}"
   }
 }
 
