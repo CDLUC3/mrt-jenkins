@@ -154,6 +154,27 @@ def save_artifacts(path, prefix){
   }
 }
 
+def save_dev_artifacts(path, prefix){
+  script {
+    def twar = "${prefix}.war"
+    def tlabel = ""
+    if (params.containsKey("branch")) {
+      tlabel = branch.replaceFirst(/origin\//, '')
+    } else {
+      tlabel = tagname
+    }
+    twar = "${prefix}-${tlabel}.war"
+    sh "cp ${path} ${twar}"
+    archiveArtifacts \
+      artifacts: "${twar}"
+      onlyIfSuccessful: true
+    if (params.containsKey("tagname")) {
+      sh "mkdir -p ${JENKINS_HOME}/userContent/${prefix}"
+      sh "cp ${twar} ${JENKINS_HOME}/userContent/${prefix}"
+    }
+  }
+}
+
 def save_jars(path, prefix){
   script {
     def build_txt = 'static/build.content.txt'
