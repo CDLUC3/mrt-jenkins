@@ -156,6 +156,7 @@ def save_artifacts(path, prefix){
 
 def save_dev_artifacts(path, prefix){
   script {
+    def build_txt = 'static/build.content.txt'
     def twar = "${prefix}.war"
     def tlabel = ""
     if (params.containsKey("branch")) {
@@ -165,6 +166,8 @@ def save_dev_artifacts(path, prefix){
     }
     twar = "${prefix}-${tlabel}.war"
     sh "cp ${path} ${twar}"
+    sh "echo ${prefix}-${tlabel} > ${build_txt}"
+    sh "jar uf ${twar} ${build_txt}"
     archiveArtifacts \
       artifacts: "${twar}"
       onlyIfSuccessful: true
