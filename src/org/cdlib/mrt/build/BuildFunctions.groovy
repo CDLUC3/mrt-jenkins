@@ -167,7 +167,7 @@ def save_dev_artifacts(path, prefix){
     }
     twar = "${prefix}-${tlabel}.war"
     sh "cp ${path} ${twar}"
-    sh "echo ${prefix}-${tlabel} > ${build_txt}"
+    sh "echo Building tag ${tlabel} > ${build_txt}"
     sh "jar uf ${twar} ${build_txt}"
     archiveArtifacts \
       artifacts: "${twar}"
