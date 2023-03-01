@@ -159,6 +159,7 @@ def save_dev_artifacts(path, prefix){
     def build_txt = 'static/build.content.txt'
     def twar = "${prefix}.war"
     def tlabel = ""
+    sh "mkdir -p static"
     if (params.containsKey("branch")) {
       tlabel = branch.replaceFirst(/origin\//, '')
     } else {
