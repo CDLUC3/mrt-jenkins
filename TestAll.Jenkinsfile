@@ -20,7 +20,7 @@ pipeline {
      */
     environment {      
       //working vars
-      M2DIR = "${HOME}/.m2-replic"
+      M2DIR = "${HOME}/.m2-buildall"
     }
     agent any
 
