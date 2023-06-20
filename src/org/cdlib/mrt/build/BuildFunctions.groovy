@@ -78,6 +78,7 @@ def deps_core_library(repo, branch){
     def deps_txt = '../static/dependencies.txt'
     git branch: branch, url: repo
     sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install -f parprop")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install -f reflect")
     sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean dependency:analyze")
     sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml dependency:analyze-only | egrep 'WARNING|INFO..Building' >> ${deps_txt}")
   }
