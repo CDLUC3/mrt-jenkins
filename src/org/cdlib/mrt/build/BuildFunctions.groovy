@@ -29,7 +29,7 @@ def init_build() {
     } 
     sh("date >> ${build_txt}")
     sh("echo '' >> ${build_txt}")
-    sh("echo 'Purge ${env.M2DIR}: ${params.remove_local_m2}'")
+    sh("echo 'Purge ${env.M2DIR}: ${params.remove_local_m2:-false}'")
     if (params.remove_local_m2.toBoolean()) {
       sh("rm -rf ${env.M2DIR}")
     }
