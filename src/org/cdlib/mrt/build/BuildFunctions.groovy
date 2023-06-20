@@ -40,7 +40,19 @@ def init_build() {
     sh("aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}")
   }
 }
-  
+
+def build_core_library(repo, branch, mvnparams){
+  script {
+    def build_txt = '../static/build.content.txt'
+    git branch: branch, url: repo
+    sh("git remote get-url origin >> ${build_txt}")
+    sh("git symbolic-ref -q --short HEAD >> ${build_txt} || git describe --tags --exact-match >> ${build_txt}")
+    sh("git log --pretty=full -n 1 >> ${build_txt}")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install -Pparent")
+    sh("mvn -Dmaven.repo.local=${env.M2DIR} -s ${MAVEN_HOME}/conf/settings.xml clean install ${mvnparams}")
+  }
+}
+
 def build_library(repo, branch, mvnparams){
   script {
     def build_txt = '../static/build.content.txt'
