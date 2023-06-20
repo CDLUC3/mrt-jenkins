@@ -20,7 +20,7 @@ pipeline {
      */
     environment {      
       //working vars
-      M2DIR = "${HOME}/.m2-replic"
+      M2DIR = "${HOME}/.m2-buildall"
     }
     agent any
 
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 dir('mrt-core2') {
                   script {
-                    new BuildFunctions().deps_library(
+                    new BuildFunctions().deps_core_library(
                       'https://github.com/CDLUC3/mrt-core2.git', 
                       params.branch_core,
                     )
@@ -111,7 +111,7 @@ pipeline {
         }
         stage('Deps Audit') {
             steps {
-                dir('mrt-replic'){
+                dir('mrt-audit'){
                   script {
                     new BuildFunctions().deps_war(
                       'https://github.com/CDLUC3/mrt-audit.git',
