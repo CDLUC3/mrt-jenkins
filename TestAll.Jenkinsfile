@@ -41,7 +41,7 @@ pipeline {
             steps {
                 dir('mrt-core2') {
                   script {
-                    new BuildFunctions().build_library(
+                    new BuildFunctions().build_core_library(
                       'https://github.com/CDLUC3/mrt-core2.git', 
                       params.branch_core, 
                       ''
