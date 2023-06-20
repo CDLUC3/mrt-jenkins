@@ -21,7 +21,6 @@ pipeline {
     environment {      
       //working vars
       M2DIR = "${HOME}/.m2-buildall"
-      params.remove_local_m2 = false
     }
     agent any
 
