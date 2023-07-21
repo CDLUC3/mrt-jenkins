@@ -33,6 +33,8 @@ pipeline {
             steps {
                 script {
                     git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
+                    sh("export BUILDDIR=$PWD")
+                    sh("bin/fresh_build.sh $params.branch $params.build_conifig $params.maven_profile")
                 }
             }
         }
