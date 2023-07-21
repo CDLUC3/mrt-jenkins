@@ -13,7 +13,7 @@ pipeline {
     environment {      
       //working vars
       M2DIR = "${HOME}/.m2-buildall"
-      BUILDDIR = sh('pwd')
+      BUILDDIR = "$WORKSPACE"
     }
     agent any
 
