@@ -33,6 +33,7 @@ pipeline {
         stage('Run Build Script') {
             steps {
                 script {
+                    sh("export JAVA_HOME")
                     sh("pip3 install pyyaml")
                     git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
                     sh("bin/fresh_build.sh ${params.branch} ${params.build_config} ${params.maven_profile}")
