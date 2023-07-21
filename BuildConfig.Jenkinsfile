@@ -7,8 +7,8 @@ pipeline {
     /*
      * Params:
      *   branch
-     *   build-config
-     *   maven-profile
+     *   build_config
+     *   maven_profile
      */
     environment {      
       //working vars
