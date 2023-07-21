@@ -13,6 +13,7 @@ pipeline {
     environment {      
       //working vars
       M2DIR = "${HOME}/.m2-buildall"
+      BUILDDIR = $(PWD)
     }
     agent any
 
@@ -33,7 +34,6 @@ pipeline {
             steps {
                 script {
                     git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
-                    sh("export BUILDDIR=`pwd`")
                     sh("bin/fresh_build.sh $params.branch $params.build_conifig $params.maven_profile")
                 }
             }
