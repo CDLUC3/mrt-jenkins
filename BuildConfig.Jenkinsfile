@@ -33,7 +33,6 @@ pipeline {
         stage('Run Build Script') {
             steps {
                 script {
-                    sh("java --version")
                     sh("mvn --version")
                     sh("pip3 install pyyaml")
                     git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
