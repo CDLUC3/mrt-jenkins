@@ -35,7 +35,7 @@ pipeline {
                 script {
                     sh("pip3 install pyyaml")
                     git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
-                    sh(". bin/fresh_build.sh ${params.branch} ${params.build_config} ${params.maven_profile}")
+                    sh("/bin/bash bin/fresh_build.sh ${params.branch} ${params.build_config} ${params.maven_profile}")
                     archiveArtifacts \
                       artifacts: "build-log.summary.txt, build-log.git.txt, build-log.docker.txt, \
                         build-log.trivy-scan.txt, build-log.trivy-scan-fixed.txt, build-log.maven.txt"
