@@ -33,6 +33,7 @@ pipeline {
         stage('Get Code') {
             steps {
                 script {
+                    pip3 install pyyaml
                     git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
                     sh("bin/fresh_build.sh ${params.branch} ${params.build_conifig} ${params.maven_profile}")
                 }
