@@ -32,7 +32,7 @@ pipeline {
         stage('Get Code') {
             steps {
                 script {
-                    git branch: params.branch, url: "https://github.com/CDLUC3/merritt-docker.git"
+                    git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
                 }
             }
         }
