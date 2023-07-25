@@ -1,20 +1,4 @@
-@Library('merritt-build-library')
-import org.cdlib.mrt.build.BuildFunctions;
-
-// See https://github.com/CDLUC3/mrt-jenkins/blob/main/src/org/cdlib/mrt/build/BuildFunctions.groovy
-
 pipeline {
-    /*
-     * Params:
-     *   branch
-     *   build_config
-     *   maven_profile
-     */
-    environment {      
-      //working vars
-      M2DIR = "${HOME}/.m2-buildall"
-      BUILDDIR = "$WORKSPACE"
-    }
     agent any
 
     tools {
@@ -23,21 +7,22 @@ pipeline {
     }
 
     stages {
-        stage('Purge Local') {
+        stage('Initialize') {
             steps {
                 script {
-                  new BuildFunctions().init_build();
+                  sh("newgrp docker")
+                  sh("id")
+                  sh("echo 'ECR REG: ${env.ECR_REGISTRY}'")
+                  sh("aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.ECR_REGISTRY}")
+                  sh("pip3 install pyyaml")
                 }
             }
         }
         stage('Run Build Script') {
             steps {
                 script {
-                    sh("which mvn")
-                    sh("echo which mvn|/bin/bash")
-                    sh("pip3 install pyyaml")
-                    git branch: 'main', url: "https://github.com/CDLUC3/merritt-docker.git"
-                    sh("bin/fresh_build.sh ${params.branch} ${params.build_config} ${params.maven_profile}")
+                    git branch: ${params.branch}, url: "https://github.com/CDLUC3/merritt-docker.git"
+                    sh("bin/fresh_build.sh -C '${params.build_config}' -m '${params.maven_profile}' -p '${params.tag_pub}' -t '${params.repo_tag}'")
                     archiveArtifacts \
                       artifacts: "build-log.summary.txt, build-log.git.txt, build-log.docker.txt, \
                         build-log.trivy-scan.txt, build-log.trivy-scan-fixed.txt, build-log.maven.txt"
