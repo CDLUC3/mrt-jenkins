@@ -24,8 +24,7 @@ pipeline {
                     git branch: "${params.branch}", url: "https://github.com/CDLUC3/merritt-docker.git"
                     sh("bin/fresh_build.sh -w '$env.WORKSPACE' -C '${params.build_config}' -m '${params.maven_profile}' -p '${params.tag_pub}' -t '${params.repo_tag}'")
                     archiveArtifacts \
-                      artifacts: "build-output/build-log.summary.txt, build-output/build-log.git.txt, build-output/build-log.docker.txt, \
-                        build-output/build-log.trivy-scan.txt, build-output/build-log.trivy-scan-fixed.txt, build-output/build-log.maven.txt"
+                      artifacts: "build-output/*"
                 }
             }
         }
